@@ -2,18 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage("Clean Up") {
-            steps {
-                deleteDir()
-            }
-        }
-        stage('Clone Repository') {
-            steps {
-                withCredentials([string(credentialsId: 'github-pat', variable: 'GITHUB_PAT')]) {
-                  sh ('git clone https://x-token-auth:${GITHUB_PAT}@github.com/oadetola89/learn-jenkins-app.git')
-                }
-            }
-        }
         stage('Build') {
             steps {
                 sh '''
