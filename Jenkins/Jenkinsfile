@@ -33,8 +33,10 @@ pipeline {
         }
         stage('Test') {
             steps {
+              sh '''
                 cd learn-jenkins-app
                 npm test
+              '''
             }
         }
     }
