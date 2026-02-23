@@ -3,14 +3,9 @@ pipeline {
 
     stages {
         stage('Build') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
             steps {
                 sh '''
+                   yum install nodejs nodejs-devel -y
                    ls -la
                    node --version
                    npm --version
