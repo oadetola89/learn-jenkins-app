@@ -3,29 +3,19 @@ pipeline {
 
     stages {
         stage('Build') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
             steps {
                 sh '''
-<<<<<<< HEAD
                    if ! command -v npm &> /dev/null; then
                         sudo yum install nodejs nodejs-devel -y
                     fi
                    
                    cd learn-jenkins-app
                    ls -alh
-=======
-                   ls -la
->>>>>>> 941fe35805aa65021295dfacab3efacf87ef4839
                    node --version
                    npm --version
                    npm install
                    npm run build
-                   ls -la
+                   ls -lah
                 '''
             }
         }
