@@ -2,17 +2,39 @@ pipeline {
     agent any
 
     stages {
+        stage("Clean Up") {
+            steps {
+                deleteDir()
+            }
+        }
+        stage('Clone Repository') {
+            steps {
+                withCredentials([string(credentialsId: 'github-pat', variable: 'GITHUB_PAT')]) {
+                  sh ('git clone https://x-token-auth:${GITHUB_PAT}@github.com/oadetola89/learn-jenkins-app.git')
+                }
+            }
+        }
         stage('Build') {
             steps {
                 sh '''
-                   sudo yum install nodejs nodejs-devel -y
-                   ls -la
+                   if ! command -v npm &> /dev/null; then
+                        sudo yum install nodejs nodejs-devel -y
+                    fi
+                   
+                   cd learn-jenkins-app
+                   ls -alh
                    node --version
                    npm --version
-                   npm ci
+                   npm install
                    npm run build
                    ls -la
                 '''
+            }
+        }
+        stage('Test') {
+            steps {
+                cd learn-jenkins-app
+                npm test
             }
         }
     }
